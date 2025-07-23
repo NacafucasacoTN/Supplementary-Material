@@ -1,0 +1,32 @@
+import numpy as np
+import scipy.stats as stats
+
+# Function to calculate the confidence interval of mean differences
+def calculate_mean_difference_ci():
+    # Request data from the user
+    data_a = input("Enter the values of dataset A, separated by commas: ")
+    data_b = input("Enter the values of dataset B, separated by commas: ")
+    
+    # Convert the data into numerical lists
+    data_a = np.array([float(x) for x in data_a.split(',')])
+    data_b = np.array([float(x) for x in data_b.split(',')])
+    
+    # Check if both datasets have the same size
+    if len(data_a) != len(data_b):
+        print("The datasets must have the same size.")
+        return
+    
+    # Calculate the difference between pairs
+    diff = data_a - data_b
+    mean_diff = np.mean(diff)
+    standard_error_diff = stats.sem(diff)
+    
+    # Calculate the confidence interval (95%)
+    confidence_interval = stats.t.interval(0.95, len(diff) - 1, loc=mean_diff, scale=standard_error_diff)
+    
+    # Display the results
+    print(f"\nMean difference: {mean_diff}")
+    print(f"Confidence interval (95%): {confidence_interval}")
+
+# Call the function
+calculate_mean_difference_ci()
